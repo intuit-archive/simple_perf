@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+
+require 'simple_perf'
+require 'simple_perf/cli'
+
+SimplePerf::CLI.start
