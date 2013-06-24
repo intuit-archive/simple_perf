@@ -9,7 +9,7 @@ Gem::Specification.new do |s|
   s.email       = ["mrjimmy410@gmail.com"]
   s.homepage    = "http://www.example.com"
   s.summary     = %q{I help with performance testing}
-  s.description = %q{I am designed to control a JMeter army of AWS EC2 instances}
+  s.description = %q{I am designed to control a JMeter or Gatling army of AWS EC2 instances}
 
   s.rubyforge_project = "simple_perf"
 

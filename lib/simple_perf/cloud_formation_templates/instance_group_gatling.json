@@ -1,0 +1,300 @@
+{
+    "AWSTemplateFormatVersion": "2010-09-09",
+    "Description": "Simple Perf Instance Group for Gatling",
+
+    "Parameters": {
+
+        "MaximumInstances": {
+            "Type": "String",
+            "Description": "Maximum number of app instances",
+            "Default": "1"
+        },
+        "MinimumInstances": {
+            "Type": "String",
+            "Description": "Minimum number of app instances",
+            "Default": "1"
+        },
+        "AmiId" : {
+            "Description" : "Ami to provision",
+            "Type" : "String"
+        },
+        "KeyName": {
+            "Description": "Name of EC2 key pair to use",
+            "Type": "String"
+        },
+        "InstanceType" : {
+            "Description" : "EC2 instance type",
+            "Type" : "String",
+            "Default" : "m1.medium",
+            "AllowedValues" : [ "m1.small","m1.medium","m1.large","m1.xlarge",
+                "m3.xlarge", "m3.2xlarge", "c1.xlarge" ],
+            "ConstraintDescription" : "must be a valid EC2 instance type."
+        },
+        "S3BucketName": {
+            "Description": "Name of S3 bucket",
+            "Type": "String"
+        },
+        "Abort": {
+            "Description": "Should the entire deployment be aborted if bootstraping fails?",
+            "Type": "String",
+            "Default": "yes",
+            "AllowedValues": [ "yes", "no" ],
+            "ConstraintDescription": "yes or no"
+        }
+    },
+
+    "Mappings": {
+        "BootstrapSettingMap": {
+            "abort": { "yes": "$?", "no": "0" }
+        },
+        "S3Map": {
+            "us-east-1": { "s3": "s3:/",
+                "http": "http://s3.amazonaws.com",
+                "https": "https://s3.amazonaws.com",
+                "endpoint": "s3.amazonaws.com"
+            },
+            "us-west-1": { "s3": "s3:/",
+                "http": "http://s3-us-west-1.amazonaws.com",
+                "https": "https://s3-us-west-1.amazonaws.com",
+                "endpoint": "s3-us-west-1.amazonaws.com"
+            },
+            "us-west-2": { "s3": "s3:/",
+                "http": "http://s3-us-west-2.amazonaws.com",
+                "https": "https://s3-us-west-2.amazonaws.com",
+                "endpoint": "s3-us-west-2.amazonaws.com"
+            }
+        }
+    },
+
+    "Resources": {
+        "User": {
+            "Type": "AWS::IAM::User",
+            "Properties": {
+                "Path": "/",
+                "Policies": [{
+                    "PolicyName": "user_resource_access",
+                    "PolicyDocument": {
+                        "Statement":[
+                            {
+                                "Effect": "Allow",
+                                "Action": "cloudformation:DescribeStackResource",
+                                "Resource": "*"
+                            },
+                            {
+                                "Effect": "Allow",
+                                "Action": ["s3:ListAllMyBuckets"],
+                                "Resource": "arn:aws:s3:::*"
+                            },
+                            {
+                                "Effect": "Allow",
+                                "Action": ["s3:*"],
+                                "Resource": [ { "Fn::Join": [ "", [ "arn:aws:s3:::",
+                                    { "Ref": "S3BucketName" } ] ] },
+                                    { "Fn::Join": [ "", [ "arn:aws:s3:::",
+                                        { "Ref": "S3BucketName" }, "/*" ] ] }
+                                ]
+                            }
+                        ]
+
+                    }
+                }]
+            }
+        },
+
+        "UserKey": {
+            "Type": "AWS::IAM::AccessKey",
+            "Properties": {
+                "UserName": {"Ref": "User"}
+            }
+        },
+
+        "Instances": {
+            "Type": "AWS::AutoScaling::AutoScalingGroup",
+            "Properties": {
+                "AvailabilityZones": { "Fn::GetAZs": "" },
+                "LaunchConfigurationName": { "Ref": "InstanceLaunchConfig" },
+                "MaxSize": { "Ref": "MaximumInstances" },
+                "MinSize": { "Ref": "MinimumInstances" },
+                "Tags": [ {
+                    "Key": "Name",
+                    "Value": { "Ref": "AWS::StackName" } ,
+                    "PropagateAtLaunch": "true" }
+                ]
+            }
+        },
+
+        "InstanceLaunchConfig": {
+            "Type": "AWS::AutoScaling::LaunchConfiguration",
+            "Metadata": {
+
+                "AWS::CloudFormation::Init": {
+
+                    "configSets": {
+                        "default": [ "base", "s3cmd", "gatling" ]
+                    },
+
+                    "base": {
+
+                        "files": {
+                            "/etc/yum.repos.d/intu-packages.repo": {
+                                "content": { "Fn::Join": [ "", [
+                                    "[intu-packages-", { "Ref": "AWS::Region" }, "]\n",
+                                    "name=Intuit Custom RPM Packages\n",
+                                    "baseurl=",
+                                    { "Fn::FindInMap": [ "S3Map", { "Ref": "AWS::Region" }, "http" ] },
+                                    "/intu-packages-", { "Ref": "AWS::Region" }, "/rhel/6/x86_64\n",
+                                    "gpgcheck=0\n",
+                                    "enabled=1\n"
+                                ] ] },
+                                "owner": "root",
+                                "group": "root",
+                                "mode": "000644"
+                            }
+
+                        }
+
+                    },
+
+                    "s3cmd": {
+
+                        "files": {
+
+                            "/home/ec2-user/.s3cfg": {
+                                "content": { "Fn::Join": ["", [
+                                    "access_key = ", { "Ref": "UserKey" }, "\n",
+                                    "secret_key = ", {"Fn::GetAtt": ["UserKey", "SecretAccessKey"]}, "\n"
+                                ]]},
+                                "mode"   : "000400",
+                                "owner"  : "ec2-user",
+                                "group"  : "ec2-user"
+                            },
+
+                            "/root/.s3cfg": {
+                                "content": { "Fn::Join": ["", [
+                                    "access_key = ", { "Ref": "UserKey" }, "\n",
+                                    "secret_key = ", {"Fn::GetAtt": ["UserKey", "SecretAccessKey"]}, "\n"
+                                ]]},
+                                "mode"   : "000400",
+                                "owner"  : "ec2-user",
+                                "group"  : "ec2-user"
+                            }
+
+                        },
+
+                        "packages": {
+                            "yum": {
+                                "s3cmd": []
+                            }
+                        }
+
+                    },
+
+                    "gatling": {
+
+                        "files": {
+
+                            "/home/ec2-user/sync_gatling_files.sh": {
+                                "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
+                                    "mkdir -p ~/gatling_test_files", "\n",
+                                    "cd ~/gatling_test_files", "\n",
+                                    "s3cmd sync s3://",
+                                    { "Ref": "S3BucketName" },
+                                    " ." ] ] },
+                                "owner": "ec2-user",
+                                "group": "ec2-user",
+                                "mode": "000770"
+                            },
+
+                            "/home/ec2-user/gatling_test_files/gatling.sh": {
+                                "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
+                                    "export GATLING_HOME=/opt/gatling", "\n",
+                                    "$GATLING_HOME/bin/gatling.sh -df ~/gatling_test_files/user-files/data -sf ~/gatling_test_files/user-files/simulations", "\n" ] ] },
+                                "owner": "ec2-user",
+                                "group": "ec2-user",
+                                "mode": "000770"
+                            },
+
+                            "/home/ec2-user/gatling_test_files/input": {
+                                "content": { "Fn::Join": [ "", [ "GatlingSimulation", "\n",
+                                    "EWLB", "\n" ] ] },
+                                "owner": "ec2-user",
+                                "group": "ec2-user",
+                                "mode": "000770"
+                            }
+
+                        },
+
+                        "packages": {
+                            "yum": {
+                                "intu-gatling": [ "1.5.1" ]
+                            }
+                        }
+
+                    }
+                }
+            },
+
+            "Properties": {
+                "KeyName" : { "Ref": "KeyName" },
+                "ImageId" : { "Ref" : "AmiId" },
+                "InstanceType": { "Ref": "InstanceType" },
+                "SecurityGroups": [ { "Ref": "InstancesSecurityGroup" } ],
+                "UserData": { "Fn::Base64": { "Fn::Join": ["", [
+                    "#!/bin/bash\n",
+
+                    "chmod 644 /etc/resolv.conf", "\n",
+
+                    "if [ -f /etc/yum.repos.d/intu-packages-us-west-1.repo ]; then", "\n",
+                    "rm -f /etc/yum.repos.d/intu-packages-us-west-1.repo", "\n",
+                    "fi", "\n",
+
+                    "/opt/aws/bin/cfn-init ",
+                    " -s ", { "Ref": "AWS::StackName" },
+                    " -r InstanceLaunchConfig",
+                    " --region=", { "Ref": "AWS::Region" },
+                    " --access-key=", { "Ref": "UserKey" },
+                    " --secret-key=", { "Fn::GetAtt": ["UserKey", "SecretAccessKey"] }, "\n",
+
+                    "runuser -c \"chown -R ec2-user:ec2-user /opt/gatling\" root", "\n",
+                    "runuser -c \"chown -R ec2-user:ec2-user /home/ec2-user/gatling_test_files\" root", "\n",
+
+                    "/opt/aws/bin/cfn-signal -e ",
+                    { "Fn::FindInMap": [ "BootstrapSettingMap", "abort", { "Ref": "Abort" } ] },
+                    " '", { "Ref": "InstancesWaitHandle" }, "'\n"
+                ]]}}
+            }
+        },
+
+        "InstancesSecurityGroup": {
+            "Type": "AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Security Group for the app the instance",
+                "SecurityGroupIngress": [
+                    {
+                        "IpProtocol" : "tcp",
+                        "FromPort" : "22",
+                        "ToPort" : "22",
+                        "CidrIp" : "0.0.0.0/0"
+                    }
+                ]
+            }
+        },
+
+        "InstancesWaitHandle": {
+            "Type": "AWS::CloudFormation::WaitConditionHandle",
+            "Properties": {}
+        },
+
+        "InstancesWaitCondition": {
+            "Type": "AWS::CloudFormation::WaitCondition",
+            "DependsOn": [ "InstanceLaunchConfig" ],
+            "Properties": {
+                "Handle": { "Ref": "InstancesWaitHandle" },
+                "Count": "1",
+                "Timeout": "900"
+            }
+        }
+
+    }
+
+}

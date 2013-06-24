@@ -12,6 +12,9 @@ require 'simple_perf/cli/status'
 require 'simple_perf/cli/results'
 require 'simple_perf/cli/update'
 require 'simple_perf/cli/chaos'
+require 'simple_perf/cli/create_gatling'
+require 'simple_perf/cli/deploy_gatling'
+require 'simple_perf/cli/start_gatling'
 
 module SimplePerf
   module CLI
@@ -21,12 +24,18 @@ module SimplePerf
       case cmd
       when 'start'
         CLI::Start.new.execute
+      when 'start_gatling'
+        CLI::StartGatling.new.execute
       when 'stop'
         CLI::Stop.new.execute
       when 'deploy'
         CLI::Deploy.new.execute
+      when 'deploy_gatling'
+        CLI::DeployGatling.new.execute
       when 'create'
         CLI::Create.new.execute
+      when 'create_gatling'
+        CLI::CreateGatling.new.execute
       when 'create_bucket'
         CLI::CreateBucket.new.execute
       when 'destroy'
@@ -40,13 +49,13 @@ module SimplePerf
       when 'chaos'
         CLI::Chaos.new.execute
       when '-h'
-        puts "simple_perf [start|stop|deploy|create|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start|start_gatling|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
       when '-v'
         puts SimplePerf::VERSION
       else
         puts "Unknown command: '#{cmd}'."
-        puts "simple_perf [start|stop|deploy|create|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start|start_gatling|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
         exit 1
       end
