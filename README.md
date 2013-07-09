@@ -1,4 +1,4 @@
-I use CAP for distributed jmeter performance testing in AWS EC2.
+I use CAP for distributed jmeter or Gatling performance testing in AWS EC2.
 
 Getting Started
 ---------------
