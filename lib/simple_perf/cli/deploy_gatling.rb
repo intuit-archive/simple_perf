@@ -29,7 +29,7 @@ EOS
 
         config = Config.new.environment opts[:environment]
 
-        ENV['SIMPLE_DEPLOY_SSH_KEY'] = config['key']
+        ENV['SIMPLE_DEPLOY_SSH_KEY'] = config['local_pem']
         ENV['SIMPLE_DEPLOY_SSH_USER'] = config['user']
 
         AWS.config(

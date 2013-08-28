@@ -13,12 +13,13 @@ Create a file **~/.simple_deploy.yml** and include within it:
 
 ```
 environments:
-  preprod_shared_us_east_1:
+  preprod_us_east_1:
     access_key: XXX
     secret_key: yyy
     region: us-east-1
-    user: XXX (example: ec2-user)
-    key: ~/yyy.pem (example: ~/mykeypair.pem)
+    user: ec2-user
+    aws_keypair: EC2 Key Pair Name
+    local_pem: ~/keypair.pem
 ```
 
 Commands

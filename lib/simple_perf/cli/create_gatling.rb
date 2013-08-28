@@ -37,17 +37,12 @@ EOS
             ' -n ' + opts[:name] +
             ' -t '+ gem_root + '/cloud_formation_templates/instance_group_gatling.json' +
             ' -a Description="EC2 Gatling Instance"' +
-            ' -a KeyName=' +  extract_keyname(config['key']) +
+            ' -a KeyName=' +  config['aws_keypair'] +
             ' -a AmiId=' +  opts[:ami] +
             ' -a S3BucketName=' + opts[:s3bucket] +
             ' -a InstanceType=' + opts[:instancetype]
 
         Shared::pretty_print `#{command}`
-      end
-
-      def extract_keyname(fullpath_keypair)
-        a = fullpath_keypair.split('/')
-        a[a.length-1].sub('.pem', '')
       end
 
     end
