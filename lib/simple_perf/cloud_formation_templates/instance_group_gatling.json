@@ -208,7 +208,7 @@
                             "/home/ec2-user/gatling_test_files/gatling.sh": {
                                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
                                     "export GATLING_HOME=/opt/gatling", "\n",
-                                    "$GATLING_HOME/bin/gatling.sh -df ~/gatling_test_files/user-files/data -sf ~/gatling_test_files/user-files/simulations", "\n" ] ] },
+                                    "$GATLING_HOME/bin/gatling.sh -df ~/gatling_test_files/user-files/data -sf ~/gatling_test_files/user-files/simulations -s $1", "\n" ] ] },
                                 "owner": "ec2-user",
                                 "group": "ec2-user",
                                 "mode": "000770"
