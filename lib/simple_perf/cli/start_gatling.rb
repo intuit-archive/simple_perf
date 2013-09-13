@@ -13,12 +13,12 @@ module SimplePerf
 Starts Gatling java processes.
 
 Usage:
-      simple_perf start_gatling -e ENVIRONMENT -n STACK_NAME
+      simple_perf start_gatling -e ENVIRONMENT -n STACK_NAME -s SIMULATION_NAME
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
           opt :name, "Stack name to manage", :type => :string
-          opt :simulation, "Gatling User simulation file (e.g. live_community.TaxUserModelSimulation)", :type => :string
+          opt :simulation, "Gatling User simulation file (e.g. sample.SampleUserModelSimulation)", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
         Trollop::die :name, "is required but not specified" unless opts[:name]
