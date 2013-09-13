@@ -10,7 +10,7 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Stops the current test by killing JMeter java processes.
+Stops the current test by killing JMeter or Gatling java processes.
 
 Usage:
       simple_perf stop -e ENVIRONMENT -n STACK_NAME

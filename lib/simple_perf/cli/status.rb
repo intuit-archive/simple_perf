@@ -10,7 +10,7 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Display JMeter army process status
+Display JMeter or Gatling army process status
 
 Usage:
       simple_perf status -e ENVIRONMENT -n STACK_NAME
@@ -30,7 +30,7 @@ EOS
         command = 'simple_deploy execute' +
                      ' -e ' + opts[:environment] +
                      ' -n ' + opts[:name] +
-                     ' -c "ps -ef | grep java | grep -v grep || echo \"jmeter process not found\""' +
+                     ' -c "ps -ef | grep java | grep -v grep || echo \"java process not found\""' +
                      ' -l debug'
 
         Shared::pretty_print `#{command}`
