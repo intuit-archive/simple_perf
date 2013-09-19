@@ -2,7 +2,6 @@ require 'trollop'
 
 require 'simple_perf/cli/shared'
 
-require 'simple_perf/cli/start'
 require 'simple_perf/cli/stop'
 require 'simple_perf/cli/deploy'
 require 'simple_perf/cli/create'
@@ -14,7 +13,9 @@ require 'simple_perf/cli/update'
 require 'simple_perf/cli/chaos'
 require 'simple_perf/cli/create_gatling'
 require 'simple_perf/cli/deploy_gatling'
+require 'simple_perf/cli/start_jmeter'
 require 'simple_perf/cli/start_gatling'
+require 'simple_perf/cli/start_custom'
 
 module SimplePerf
   module CLI
@@ -22,10 +23,12 @@ module SimplePerf
       cmd = ARGV.shift
 
       case cmd
-      when 'start'
-        CLI::Start.new.execute
+      when 'start_jmeter'
+        CLI::StartJmeter.new.execute
       when 'start_gatling'
         CLI::StartGatling.new.execute
+      when 'start_custom'
+        CLI::StartCustom.new.execute
       when 'stop'
         CLI::Stop.new.execute
       when 'deploy'
@@ -49,13 +52,13 @@ module SimplePerf
       when 'chaos'
         CLI::Chaos.new.execute
       when '-h'
-        puts "simple_perf [start|start_gatling|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
       when '-v'
         puts SimplePerf::VERSION
       else
         puts "Unknown command: '#{cmd}'."
-        puts "simple_perf [start|start_gatling|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|deploy_gatling|create|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
         exit 1
       end

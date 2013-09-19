@@ -2,7 +2,7 @@ require 'trollop'
 
 module SimplePerf
   module CLI
-    class StartGatling
+    class StartCustom
       include Shared
 
       def execute
@@ -10,19 +10,17 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Starts Gatling java processes.
+Starts JMeter or Gatling with custom shell script.
 
 Usage:
-      simple_perf start_gatling -e ENVIRONMENT -n STACK_NAME -s SIMULATION_NAME
+      simple_perf start_custom -e ENVIRONMENT -n STACK_NAME
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
           opt :name, "Stack name to manage", :type => :string
-          opt :simulation, "Gatling User simulation file (e.g. sample.SampleUserModelSimulation)", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
         Trollop::die :name, "is required but not specified" unless opts[:name]
-        Trollop::die :simulation, "is required but not specified" unless opts[:simulation]
 
         config = Config.new.environment opts[:environment]
 
@@ -32,7 +30,7 @@ EOS
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
                     ' -n ' + opts[:name] +
-                    ' -c "cd ~/simple_perf_test_files; nohup ./gatling.sh ' + opts[:simulation] + ' < input > gatling.log  &"' +
+                    ' -c "cd ~/simple_perf_test_files; nohup ./start_custom.sh > start_custom.log  &"' +
                     ' -l debug'
 
         Shared::pretty_print `#{command}`

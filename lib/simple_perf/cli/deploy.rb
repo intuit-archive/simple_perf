@@ -81,7 +81,7 @@ EOS
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
                             ' -n ' + opts[:name] +
-                            ' -c "cd ~/jmeter_test_files; unzip -o "' + file_name +
+                            ' -c "cd ~/simple_perf_test_files; unzip -o "' + file_name +
                             ' -l debug'
 
         Shared::pretty_print `#{command}`

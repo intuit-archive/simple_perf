@@ -2,7 +2,7 @@ require 'trollop'
 
 module SimplePerf
   module CLI
-    class Start
+    class StartJmeter
       include Shared
 
       def execute
@@ -13,7 +13,7 @@ module SimplePerf
 Starts JMeter java processes.
 
 Usage:
-      simple_perf start -e ENVIRONMENT -n STACK_NAME -t JMETER_TEST_PLAN
+      simple_perf start_jmeter -e ENVIRONMENT -n STACK_NAME -t JMETER_TEST_PLAN
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
@@ -32,7 +32,7 @@ EOS
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
                     ' -n ' + opts[:name] +
-                    ' -c "cd ~/jmeter_test_files; nohup jmeter -Dsun.net.inetaddr.ttl=60 -n -t ' + opts[:testplan] + ' </dev/null >/dev/null 2>&1 &"' +
+                    ' -c "cd ~/simple_perf_test_files; nohup jmeter -Dsun.net.inetaddr.ttl=60 -n -t ' + opts[:testplan] + ' </dev/null >/dev/null 2>&1 &"' +
                     ' -l debug'
 
         Shared::pretty_print `#{command}`

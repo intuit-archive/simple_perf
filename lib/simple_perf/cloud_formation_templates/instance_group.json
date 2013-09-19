@@ -219,8 +219,8 @@
 
               "/home/ec2-user/sync_jmeter_files.sh": {
                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
-                                                 "mkdir -p ~/jmeter_test_files", "\n",
-                                                 "cd ~/jmeter_test_files", "\n",
+                                                 "mkdir -p ~/simple_perf_test_files", "\n",
+                                                 "cd ~/simple_perf_test_files", "\n",
                                                  "s3cmd sync s3://",
                                                     { "Ref": "S3BucketName" },
                                                     " ." ] ] },

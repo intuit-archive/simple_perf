@@ -195,8 +195,8 @@
 
                             "/home/ec2-user/sync_gatling_files.sh": {
                                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
-                                    "mkdir -p ~/gatling_test_files", "\n",
-                                    "cd ~/gatling_test_files", "\n",
+                                    "mkdir -p ~/simple_perf_test_files", "\n",
+                                    "cd ~/simple_perf_test_files", "\n",
                                     "s3cmd sync s3://",
                                     { "Ref": "S3BucketName" },
                                     " ." ] ] },
@@ -208,7 +208,7 @@
                             "/home/ec2-user/gatling_test_files/gatling.sh": {
                                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
                                     "export GATLING_HOME=/opt/gatling", "\n",
-                                    "$GATLING_HOME/bin/gatling.sh -df ~/gatling_test_files/user-files/data -sf ~/gatling_test_files/user-files/simulations -s $1", "\n" ] ] },
+                                    "$GATLING_HOME/bin/gatling.sh -df ~/simple_perf_test_files/user-files/data -sf ~/simple_perf_test_files/user-files/simulations -s $1", "\n" ] ] },
                                 "owner": "ec2-user",
                                 "group": "ec2-user",
                                 "mode": "000770"
@@ -256,7 +256,7 @@
                     " --secret-key=", { "Fn::GetAtt": ["UserKey", "SecretAccessKey"] }, "\n",
 
                     "runuser -c \"chown -R ec2-user:ec2-user /opt/gatling\" root", "\n",
-                    "runuser -c \"chown -R ec2-user:ec2-user /home/ec2-user/gatling_test_files\" root", "\n",
+                    "runuser -c \"chown -R ec2-user:ec2-user /home/ec2-user/simple_perf_test_files\" root", "\n",
 
                     "/opt/aws/bin/cfn-signal -e ",
                     { "Fn::FindInMap": [ "BootstrapSettingMap", "abort", { "Ref": "Abort" } ] },
