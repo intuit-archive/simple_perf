@@ -10,6 +10,7 @@ Gem::Specification.new do |s|
   s.homepage    = "https://github.com/intuit/simple_perf"
   s.summary     = %q{I help with performance testing}
   s.description = %q{I am designed to control a JMeter or Gatling army of AWS EC2 instances}
+  s.license = 'MIT'
 
   s.rubyforge_project = "simple_perf"
 
