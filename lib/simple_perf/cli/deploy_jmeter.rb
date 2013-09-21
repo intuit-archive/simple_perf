@@ -3,7 +3,7 @@ require 'aws-sdk'
 
 module SimplePerf
   module CLI
-    class Deploy
+    class DeployJmeter
       include Shared
 
       def execute
@@ -14,7 +14,7 @@ module SimplePerf
 Deploys jmeter test assets (csv's and jmx) to EC2 jmeter instances.
 
 Usage:
-      simple_perf deploy -e ENVIRONMENT -n STACK_NAME
+      simple_perf deploy -e ENVIRONMENT -p PROJECT_NAME
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
@@ -36,10 +36,9 @@ EOS
             :access_key_id => config['access_key'],
             :secret_access_key => config['secret_key'])
 
-        #TODO - This is a bad idea...there could be multiple stacks with s3 in the name...fix later
         command = 'simple_deploy list' +
                         ' -e ' + opts[:environment] +
-                        ' | grep s3'
+                        ' | grep ' + opts[:project] + '-s3'
         bucket_stack = `#{command}`
 
         command = 'simple_deploy outputs' +
@@ -72,7 +71,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + opts[:name] +
+                    ' -n ' + 'simple-perf-' + opts[:name] + '-jmeter' +
                     ' -c "~/sync_jmeter_files.sh"' +
                     ' -l debug'
 
@@ -80,7 +79,7 @@ EOS
 
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
-                            ' -n ' + opts[:name] +
+                            ' -n ' + 'simple-perf-' + opts[:name] + '-jmeter' +
                             ' -c "cd ~/simple_perf_test_files; unzip -o "' + file_name +
                             ' -l debug'
 

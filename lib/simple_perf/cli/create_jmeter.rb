@@ -2,7 +2,7 @@ require 'trollop'
 
 module SimplePerf
   module CLI
-    class Create
+    class CreateJMeter
       include Shared
 
       def execute
@@ -13,17 +13,17 @@ module SimplePerf
 Creates CloudFormation stack for JMeter instances.
 
 Usage:
-      simple_perf create -e ENVIRONMENT -n STACK_NAME -a AMI -i INSTANCE_TYPE -s S3_BUCKET
+      simple_perf create_jmeter -e ENVIRONMENT -p PROJECT_NAME -a AMI -i INSTANCE_TYPE -s S3_BUCKET
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
-          opt :name, "Stack name to manage", :type => :string
+          opt :project, "Project name to manage", :type => :string
           opt :ami, "AWS ami", :type => :string
           opt :instancetype, "AWS instance type", :type => :string
           opt :s3bucket, "AWS s3 bucket", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :name, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:name]
         Trollop::die :ami, "is required but not specified" unless opts[:ami]
         Trollop::die :instancetype, "is required but not specified" unless opts[:instancetype]
         Trollop::die :s3bucket, "is required but not specified" unless opts[:s3bucket]
@@ -34,7 +34,7 @@ EOS
 
         command = 'simple_deploy create' +
             ' -e ' + opts[:environment] +
-            ' -n ' + opts[:name] +
+            ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
             ' -t '+ gem_root + '/cloud_formation_templates/instance_group.json' +
             ' -a Description="EC2 JMeter Instance"' +
             ' -a KeyName=' +  config['aws_keypair'] +
