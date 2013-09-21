@@ -71,7 +71,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + 'simple-perf-' + opts[:name] + '-gatling' +
+                    ' -n ' + 'simple-perf-' + opts[:project] + '-gatling' +
                     ' -c "~/sync_gatling_files.sh"' +
                     ' -l debug'
 
@@ -79,7 +79,7 @@ EOS
 
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
-                            ' -n ' + 'simple-perf-' + opts[:name] + '-gatling' +
+                            ' -n ' + 'simple-perf-' + opts[:project] + '-gatling' +
                             ' -c "cd ~/simple_perf_test_files; tar xvfz "' + file_name +
                             ' -l debug'
 

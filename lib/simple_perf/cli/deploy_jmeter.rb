@@ -18,10 +18,10 @@ Usage:
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
-          opt :name, "Stack name to manage", :type => :string
+          opt :project, "Project name to manage", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :name, "is required but not specified" unless opts[:project]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
 
         file_name = 'test.zip'
 
@@ -71,7 +71,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + 'simple-perf-' + opts[:name] + '-jmeter' +
+                    ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
                     ' -c "~/sync_jmeter_files.sh"' +
                     ' -l debug'
 
@@ -79,7 +79,7 @@ EOS
 
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
-                            ' -n ' + 'simple-perf-' + opts[:name] + '-jmeter' +
+                            ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
                             ' -c "cd ~/simple_perf_test_files; unzip -o "' + file_name +
                             ' -l debug'
 
