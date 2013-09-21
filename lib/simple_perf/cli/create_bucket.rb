@@ -19,7 +19,7 @@ EOS
           opt :project, "Project name to manage", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :project, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
 
         gem_root = File.expand_path '../..', __FILE__
 

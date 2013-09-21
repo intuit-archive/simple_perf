@@ -21,7 +21,7 @@ EOS
           opt :project, "Stack name to manage", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :project, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
 
         file_name = 'user-files.tar.gz'
 

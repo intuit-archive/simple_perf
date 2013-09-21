@@ -23,7 +23,7 @@ EOS
           opt :s3bucket, "AWS s3 bucket", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :project, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
         Trollop::die :ami, "is required but not specified" unless opts[:ami]
         Trollop::die :instancetype, "is required but not specified" unless opts[:instancetype]
         Trollop::die :s3bucket, "is required but not specified" unless opts[:s3bucket]
