@@ -34,7 +34,7 @@ EOS
 
         command = 'simple_deploy outputs' +
             ' -e ' + opts[:environment] +
-            ' -n ' + opts[:name]
+            ' -n ' + 'simple-perf-' + opts[:project] + '-s3-' + config['region']
 
         (0..5).each do |i|
           puts "Getting s3 bucket name..."
