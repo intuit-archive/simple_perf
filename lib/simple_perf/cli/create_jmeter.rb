@@ -34,7 +34,7 @@ EOS
 
         command = 'simple_deploy create' +
             ' -e ' + opts[:environment] +
-            ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
+            ' -n ' + 'simple-perf-' + opts[:project] +
             ' -t '+ gem_root + '/cloud_formation_templates/instance_group.json' +
             ' -a Description="EC2 JMeter Instance"' +
             ' -a KeyName=' +  config['aws_keypair'] +

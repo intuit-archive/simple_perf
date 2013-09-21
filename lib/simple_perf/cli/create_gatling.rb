@@ -34,7 +34,7 @@ EOS
 
         command = 'simple_deploy create' +
             ' -e ' + opts[:environment] +
-            ' -n ' + 'simple-perf-' + opts[:project] + '-gatling' +
+            ' -n ' + 'simple-perf-' + opts[:project] +
             ' -t '+ gem_root + '/cloud_formation_templates/instance_group_gatling.json' +
             ' -a Description="EC2 Gatling Instance"' +
             ' -a KeyName=' +  config['aws_keypair'] +
