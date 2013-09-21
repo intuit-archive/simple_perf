@@ -2,7 +2,7 @@ require 'trollop'
 
 module SimplePerf
   module CLI
-    class CreateJMeter
+    class CreateJmeter
       include Shared
 
       def execute
