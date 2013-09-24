@@ -71,7 +71,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
+                    ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "~/sync_jmeter_files.sh"' +
                     ' -l debug'
 
@@ -79,7 +79,7 @@ EOS
 
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
-                            ' -n ' + 'simple-perf-' + opts[:project] + '-jmeter' +
+                            ' -n ' + 'simple-perf-' + opts[:project] +
                             ' -c "cd ~/simple_perf_test_files; unzip -o "' + file_name +
                             ' -l debug'
 

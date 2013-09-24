@@ -10,23 +10,23 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Updates CloudFormation stack parameters.
+Updates number of JMeter or Gatling instances.
 
 Usage:
-      simple_perf update -e ENVIRONMENT -n STACK_NAME -c COUNT
+      simple_perf update -e ENVIRONMENT -p PROJECT_NAME -c COUNT
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
-          opt :name, "Stack name to manage", :type => :string
-          opt :count, "Number of jmeter instances", :type => :string
+          opt :project, "Project name to manage", :type => :string
+          opt :count, "Number of JMeter or Gatling instances", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :name, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
         Trollop::die :count, "is required but not specified" unless opts[:count]
 
         command = 'simple_deploy update' +
                  ' -e ' + opts[:environment] +
-                 ' -n ' + opts[:name] +
+                 ' -n ' + 'simple-perf-' + opts[:project] +
                  ' -a MinimumInstances=' + opts[:count] +
                  ' -a MaximumInstances=' + opts[:count]
 

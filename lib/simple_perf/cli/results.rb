@@ -13,14 +13,14 @@ module SimplePerf
 Display JMeter log file results.
 
 Usage:
-      simple_perf results -e ENVIRONMENT -n STACK_NAME
+      simple_perf results -e ENVIRONMENT -p PROJECT_NAME
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
-          opt :name, "Stack name to manage", :type => :string
+          opt :project, "Project name to manage", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
-        Trollop::die :name, "is required but not specified" unless opts[:name]
+        Trollop::die :project, "is required but not specified" unless opts[:project]
 
         config = Config.new.environment opts[:environment]
 
@@ -31,7 +31,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + opts[:name] +
+                    ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c ' + grep_command +
                     ' -l debug'
 
