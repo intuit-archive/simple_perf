@@ -29,7 +29,7 @@ EOS
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
-                    ' -n ' + 'simple-perf-' + opts[:project]
+                    ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "killall java"' +
                     ' -l debug'
 
