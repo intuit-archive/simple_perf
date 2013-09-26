@@ -27,7 +27,7 @@ EOS
         ENV['SIMPLE_DEPLOY_SSH_KEY'] = config['local_pem']
         ENV['SIMPLE_DEPLOY_SSH_USER'] = config['user']
 
-        grep_command = %q['grep "Generate Summary Results +" /home/ec2-user/jmeter_test_files/jmeter.log | tail -n 3']
+        grep_command = %q['grep "Generate Summary Results +" /home/ec2-user/simple_perf_test_files/jmeter.log | tail -n 3']
 
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
