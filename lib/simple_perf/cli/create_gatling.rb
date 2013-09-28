@@ -40,7 +40,8 @@ EOS
             ' -a KeyName=' +  config['aws_keypair'] +
             ' -a AmiId=' +  opts[:ami] +
             ' -a S3BucketName=' + opts[:s3bucket] +
-            ' -a InstanceType=' + opts[:instancetype]
+            ' -a InstanceType=' + opts[:instancetype] +
+            ' -a Abort=no'
 
         Shared::pretty_print `#{command}`
       end
