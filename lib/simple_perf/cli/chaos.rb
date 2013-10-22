@@ -41,9 +41,16 @@ EOS
 
         ec2 = AWS::EC2.new(:region => config['region'])
         ec2.instances.each do |i|
-          if(i.ip_address == target)
-            puts "Terminating instance: " + target
-            i.terminate
+          if i.vpc_id
+            if(i.private_ip_address == target)
+              puts "Terminating instance with private IP: " + target
+              i.terminate
+            end
+          elsif
+            if(i.ip_address == target)
+              puts "Terminating instance with public IP: " + target
+              i.terminate
+            end
           end
         end
       end
