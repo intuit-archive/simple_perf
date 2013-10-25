@@ -11,8 +11,7 @@ require 'simple_perf/cli/chaos'
 require 'simple_perf/cli/create_bucket'
 require 'simple_perf/cli/create_jmeter'
 require 'simple_perf/cli/create_gatling'
-require 'simple_perf/cli/deploy_jmeter'
-require 'simple_perf/cli/deploy_gatling'
+require 'simple_perf/cli/deploy'
 require 'simple_perf/cli/start_jmeter'
 require 'simple_perf/cli/start_gatling'
 require 'simple_perf/cli/start_custom'
@@ -31,10 +30,8 @@ module SimplePerf
         CLI::StartCustom.new.execute
       when 'stop'
         CLI::Stop.new.execute
-      when 'deploy_jmeter'
-        CLI::DeployJmeter.new.execute
-      when 'deploy_gatling'
-        CLI::DeployGatling.new.execute
+      when 'deploy'
+        CLI::Deploy.new.execute
       when 'create_jmeter'
         CLI::CreateJmeter.new.execute
       when 'create_gatling'
@@ -52,13 +49,13 @@ module SimplePerf
       when 'chaos'
         CLI::Chaos.new.execute
       when '-h'
-        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy_jmeter|deploy_gatling|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
       when '-v'
         puts SimplePerf::VERSION
       else
         puts "Unknown command: '#{cmd}'."
-        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy_jmeter|deploy_gatling|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
         puts "Append -h for help on specific subcommand."
         exit 1
       end

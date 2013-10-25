@@ -193,7 +193,7 @@
 
                         "files": {
 
-                            "/home/ec2-user/sync_gatling_files.sh": {
+                            "/home/ec2-user/sync_test_files.sh": {
                                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
                                     "mkdir -p ~/simple_perf_test_files", "\n",
                                     "cd ~/simple_perf_test_files", "\n",

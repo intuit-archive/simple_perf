@@ -217,7 +217,7 @@
                 "mode": "000644"
               },
 
-              "/home/ec2-user/sync_jmeter_files.sh": {
+              "/home/ec2-user/sync_test_files.sh": {
                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
                                                  "mkdir -p ~/simple_perf_test_files", "\n",
                                                  "cd ~/simple_perf_test_files", "\n",
@@ -262,7 +262,7 @@
             " --access-key=", { "Ref": "UserKey" },
             " --secret-key=", { "Fn::GetAtt": ["UserKey", "SecretAccessKey"] }, "\n",
 
-          "runuser -c \"~/sync_jmeter_files.sh\" ec2-user", "\n",
+          "runuser -c \"~/sync_test_files.sh\" ec2-user", "\n",
 
           "/opt/aws/bin/cfn-signal -e ",
             { "Fn::FindInMap": [ "BootstrapSettingMap", "abort", { "Ref": "Abort" } ] },

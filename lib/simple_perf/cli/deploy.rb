@@ -3,7 +3,7 @@ require 'aws-sdk'
 
 module SimplePerf
   module CLI
-    class DeployJmeter
+    class Deploy
       include Shared
 
       def execute
@@ -11,21 +11,21 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Deploys jmeter test assets (csv's and jmx) to EC2 jmeter instances.
+Deploys test assets (local directory) to EC2 simple_perf instances.
 
 Usage:
       simple_perf deploy -e ENVIRONMENT -p PROJECT_NAME
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
-          opt :project, "Project name to manage", :type => :string
+          opt :project, "Stack name to manage", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
         Trollop::die :project, "is required but not specified" unless opts[:project]
 
-        file_name = 'test.zip'
+        file_name = 'test-files.tar.gz'
 
-        `#{'zip ' + file_name + ' *'}`
+        `#{'tar -cvzf ' + file_name + ' --exclude="gatling.sh" *'}`
 
         config = Config.new.environment opts[:environment]
 
@@ -72,7 +72,7 @@ EOS
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
-                    ' -c "~/sync_jmeter_files.sh"' +
+                    ' -c "~/sync_test_files.sh"' +
                     ' -l debug'
 
         Shared::pretty_print `#{command}`
@@ -80,7 +80,7 @@ EOS
         command = 'simple_deploy execute' +
                             ' -e ' + opts[:environment] +
                             ' -n ' + 'simple-perf-' + opts[:project] +
-                            ' -c "cd ~/simple_perf_test_files; unzip -o "' + file_name +
+                            ' -c "cd ~/simple_perf_test_files; tar -xzvf "' + file_name +
                             ' -l debug'
 
         Shared::pretty_print `#{command}`
