@@ -31,7 +31,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "cd ~/simple_perf_test_files; nohup ./start_custom.sh > start_custom.log  &"' +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

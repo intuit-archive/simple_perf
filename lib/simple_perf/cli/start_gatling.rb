@@ -33,7 +33,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "cd ~/simple_perf_test_files; nohup ./gatling.sh ' + opts[:simulation] + ' < input > gatling.log  &"' +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

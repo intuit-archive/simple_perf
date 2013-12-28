@@ -33,7 +33,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "cd ~/simple_perf_test_files; nohup jmeter -Dsun.net.inetaddr.ttl=60 -n -t ' + opts[:testplan] + ' </dev/null >/dev/null 2>&1 &"' +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

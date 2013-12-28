@@ -31,7 +31,7 @@ EOS
                      ' -e ' + opts[:environment] +
                      ' -n ' + 'simple-perf-' + opts[:project] +
                      ' -c "ps -ef | grep java | grep -v grep || echo \"java process not found\""' +
-                     ' -l debug'
+                     ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

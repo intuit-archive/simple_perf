@@ -31,7 +31,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "killall java"' +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

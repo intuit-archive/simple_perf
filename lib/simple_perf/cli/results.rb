@@ -33,7 +33,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c ' + grep_command +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end

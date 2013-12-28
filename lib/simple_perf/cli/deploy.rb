@@ -73,7 +73,7 @@ EOS
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
                     ' -c "~/sync_test_files.sh"' +
-                    ' -l debug'
+                    ' -l debug -x'
 
         Shared::pretty_print `#{command}`
 
@@ -81,7 +81,7 @@ EOS
                             ' -e ' + opts[:environment] +
                             ' -n ' + 'simple-perf-' + opts[:project] +
                             ' -c "cd ~/simple_perf_test_files; tar -xzvf "' + file_name +
-                            ' -l debug'
+                            ' -l debug -x'
 
         Shared::pretty_print `#{command}`
       end
