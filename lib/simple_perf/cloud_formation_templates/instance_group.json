@@ -262,7 +262,8 @@
             " --access-key=", { "Ref": "UserKey" },
             " --secret-key=", { "Fn::GetAtt": ["UserKey", "SecretAccessKey"] }, "\n",
 
-          "runuser -c \"sudo alternatives --set java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java\" ec2-user", "\n",
+          "runuser -c \"yum -y install java-1.7.0-openjdk\" root", "\n",
+          "runuser -c \"alternatives --set java /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java\" root", "\n",
 
           "/opt/aws/bin/cfn-signal -e ",
             { "Fn::FindInMap": [ "BootstrapSettingMap", "abort", { "Ref": "Abort" } ] },
