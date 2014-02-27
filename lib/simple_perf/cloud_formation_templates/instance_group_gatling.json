@@ -151,7 +151,16 @@
                                 "mode": "000644"
                             }
 
-                        }
+                        },
+                        "commands": {
+                          "modify_etc_sudoers_1": {
+                            "command": "sed -i 's/Defaults    requiretty/#Defaults    requiretty/' /etc/sudoers"
+                          },
+
+                          "modify_etc_sudoers_2": {
+                            "command": "sed -i 's/Defaults   !visiblepw/#Defaults   !visiblepw/' /etc/sudoers"
+                          }
+                    }
 
                     },
 
@@ -190,7 +199,6 @@
                     },
 
                     "gatling": {
-
                         "files": {
 
                             "/home/ec2-user/sync_test_files.sh": {

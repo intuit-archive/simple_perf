@@ -150,7 +150,6 @@
                 "group": "root",
                 "mode": "000644"
               }
-
             }
 
           },
@@ -203,6 +202,14 @@
 
               "jmeter_disable_cookie_check": {
                 "command": "sed -i 's/#CookieManager.check.cookies=true/CookieManager.check.cookies=false/' /opt/jakarta-jmeter/bin/jmeter.properties"
+              },
+
+              "modify_etc_sudoers_1": {
+                "command": "sed -i 's/Defaults    requiretty/#Defaults    requiretty/' /etc/sudoers"
+              },
+
+              "modify_etc_sudoers_2": {
+                "command": "sed -i 's/Defaults   !visiblepw/#Defaults   !visiblepw/' /etc/sudoers"
               }
 
             },

@@ -30,7 +30,7 @@ EOS
         command = 'simple_deploy execute' +
                     ' -e ' + opts[:environment] +
                     ' -n ' + 'simple-perf-' + opts[:project] +
-                    ' -c "cd ~/simple_perf_test_files; nohup ./start_custom.sh > start_custom.log  &"' +
+                    ' -c "cd ~/simple_perf_test_files; nohup ./start_custom.sh 2>&1 start_custom.log  &"' +
                     ' -l debug -x'
 
         Shared::pretty_print `#{command}`
