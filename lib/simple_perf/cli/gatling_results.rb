@@ -11,7 +11,7 @@ module SimplePerf
           version SimplePerf::VERSION
           banner <<-EOS
 
-Deploys test assets (local directory) to EC2 simple_perf instances.
+Moves simulations logs from  EC2 simple_perf instances to s3 bucket for respective project.
 
 Usage:
       simple_perf gatling_results -e ENVIRONMENT -p PROJECT_NAME
