@@ -216,9 +216,7 @@
                             "/home/ec2-user/sync_to_s3.sh": {
                                 "content": { "Fn::Join": [ "", [ "#!/bin/bash", "\n",
                                     "cd /opt/gatling/results/taxusermodelsimulation*", "\n",
-                                    "s3cmd sync simulation.log s3://$1/logs/simulation$HOSTNAME.log",
-                                    { "Ref": "S3BucketName" },
-                                    " ." ] ] },
+                                    "s3cmd sync simulation.log s3://$1/logs/simulation$HOSTNAME.log"] ] },
                                 "owner": "ec2-user",
                                 "group": "ec2-user",
                                 "mode": "000770"
