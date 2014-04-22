@@ -15,6 +15,7 @@ require 'simple_perf/cli/deploy'
 require 'simple_perf/cli/start_jmeter'
 require 'simple_perf/cli/start_gatling'
 require 'simple_perf/cli/start_custom'
+require 'simple_perf/cli/gatling_results'
 
 module SimplePerf
   module CLI
@@ -48,14 +49,16 @@ module SimplePerf
         CLI::Update.new.execute
       when 'chaos'
         CLI::Chaos.new.execute
+      when 'gatling_results'
+        CLI::GatlingResults.new.execute
       when '-h'
-        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos|gatling_results] [options]"
         puts "Append -h for help on specific subcommand."
       when '-v'
         puts SimplePerf::VERSION
       else
         puts "Unknown command: '#{cmd}'."
-        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos] [options]"
+        puts "simple_perf [start_jmeter|start_gatling|start_custom|stop|deploy|create_jmeter|create_gatling|create_bucket|destroy|status|results|update|chaos|gatling_results] [options]"
         puts "Append -h for help on specific subcommand."
         exit 1
       end
