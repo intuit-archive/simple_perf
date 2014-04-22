@@ -19,10 +19,10 @@ Gem::Specification.new do |s|
   s.executables   = `git ls-files -- bin/*`.split("\n").map{ |f| File.basename(f) }
   s.require_paths = ["lib"]
 
-  s.add_development_dependency "rake"
-  s.add_development_dependency "rspec", "~> 2.11.0"
+  s.add_development_dependency 'rake', '10.3.1'
+  s.add_development_dependency 'rspec', '2.14.1'
 
-  s.add_runtime_dependency "trollop", "2.0"
-  s.add_runtime_dependency "simple_deploy", "0.8.0"
-  s.add_runtime_dependency "aws-sdk", ">= 1.9.5"
+  s.add_runtime_dependency 'trollop', '2.0'
+  s.add_runtime_dependency 'simple_deploy', '0.8.2'
+  s.add_runtime_dependency 'aws-sdk', '1.38.0'
 end
