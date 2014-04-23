@@ -13,7 +13,7 @@ module SimplePerf
 Creates CloudFormation stack for Gatling instances.
 
 Usage:
-      simple_perf create_gatling -e ENVIRONMENT -p PROJECT_NAME -a AMI -i INSTANCE_TYPE -s S3_BUCKET
+      simple_perf create_gatling -e ENVIRONMENT -p PROJECT_NAME -a AMI -i INSTANCE_TYPE -s S3_BUCKET -c COUNT
 EOS
           opt :help, "Display Help"
           opt :environment, "Set the target environment", :type => :string
@@ -21,12 +21,14 @@ EOS
           opt :ami, "AWS ami", :type => :string
           opt :instancetype, "AWS instance type", :type => :string
           opt :s3bucket, "AWS s3 bucket", :type => :string
+          opt :count, "Number of Gatling instances", :type => :string
         end
         Trollop::die :environment, "is required but not specified" unless opts[:environment]
         Trollop::die :project, "is required but not specified" unless opts[:project]
         Trollop::die :ami, "is required but not specified" unless opts[:ami]
         Trollop::die :instancetype, "is required but not specified" unless opts[:instancetype]
         Trollop::die :s3bucket, "is required but not specified" unless opts[:s3bucket]
+        Trollop::die :count, "is required but not specified" unless opts[:count]
 
         gem_root = File.expand_path '../..', __FILE__
 
@@ -41,6 +43,8 @@ EOS
             ' -a AmiId=' +  opts[:ami] +
             ' -a S3BucketName=' + opts[:s3bucket] +
             ' -a InstanceType=' + opts[:instancetype] +
+            ' -a MinimumInstances=' + opts[:count] +
+            ' -a MaximumInstances=' + opts[:count] +
             ' -a Abort=no'
 
         Shared::pretty_print `#{command}`
