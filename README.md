@@ -1,3 +1,5 @@
+**!!! This project has been deprecated. We recommend you fork it or look for an alternative solution. !!!**
+
 I use CAP for distributed jmeter or Gatling performance testing in AWS EC2.
 Simple_perf is a command line interface that allows distribution of jmeter or gatling tests to multiple EC2 instances in AWS.
 Tests are run on every instance through a single command (no more starting tests on individual instances).  See the [wiki](https://github.com/intuit/simple_perf/wiki/How-to-get-started-with-simple_perf) for more
